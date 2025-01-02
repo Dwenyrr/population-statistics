@@ -16,3 +16,5 @@ Purely a server side application thanks to EJS.
 * The table data can be sorted based on each of the table columns in descending or ascending order.
   * Sorting is done by clicking the column header
 * An arrow icon is shown on the table column headers indicating the sorting order
+
+![image](https://github.com/user-attachments/assets/6f359ea7-469a-4611-94ed-6f700e828af7)
