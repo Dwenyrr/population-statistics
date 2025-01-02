@@ -1,0 +1,113 @@
+<%- include("includes/header") %>
+
+    <h1>Kuntien asukastilastoja</h1>
+
+        <!--Lomake hakusanan syöttämiseen-->
+        <form method="GET" action="/hae">
+            <div class="mdl-textfield">
+                <label class="mdl-textfield_label" for="hakusana">Hakusana</label>
+                <input class="mdl-textfield__input" type="text" name="hakusana" id="hakusana">
+            </div>
+            <button type="submit" class="mdl-button mdl-button--raised mdl-button--primary">Hae</button>
+        </form>
+
+        <!--Esitetään kunta-data-->
+        <table class="mdl-data-table mdl-js-data-table mdl-shadow--2dp">
+            <thead>
+                <tr>
+                    <th class="mdl-data-table__cell--non-numeric">
+                        <a href="/hae?hakusana=<%=hakusana%>&jarjestettava=kunta&jarjestys=<%=jarjestettava === 'kunta' && jarjestys === 'asc' ? 'desc' : 'asc' %>">
+                            Kunnan nimi
+                            <% if (jarjestettava === 'kunta') {%>
+                                <% if (jarjestys === 'asc') {%>
+                                    <i class="material-icons">arrow_drop_up</i>
+                                <% } else { %>
+                                    <i class="material-icons">arrow_drop_down</i>
+                                <% } %>
+                            <% } %>
+                        </a>
+                    </th>
+                    <th>
+                        <a href="/hae?hakusana=<%= hakusana %>&jarjestettava=asukkaatYhteensa&jarjestys=<%= jarjestettava === 'asukkaatYhteensa' && jarjestys === 'asc' ? 'desc' : 'asc' %>">
+                            Asukasmäärä yhteensä
+                            <% if (jarjestettava === 'asukkaatYhteensa') {%>
+                                <% if (jarjestys === 'asc') {%>
+                                    <i class="material-icons">arrow_drop_up</i>
+                                <% } else { %>
+                                    <i class="material-icons">arrow_drop_down</i>
+                                <% } %>
+                            <% } %>
+                        </a>
+                    </th>
+                    <th>
+                        <a href="/hae?hakusana=<%= hakusana %>&jarjestettava=asukkaatMiehet&jarjestys=<%= jarjestettava === 'asukkaatMiehet' && jarjestys === 'asc' ? 'desc' : 'asc' %>">
+                            Miesten asukasmäärä
+                            <% if (jarjestettava === 'asukkaatMiehet') {%>
+                                <% if (jarjestys === 'asc') {%>
+                                    <i class="material-icons">arrow_drop_up</i>
+                                <% } else { %>
+                                    <i class="material-icons">arrow_drop_down</i>
+                                <% } %>
+                            <% } %>
+                        </a>
+                    </th>
+                    <th>
+                        <a href="/hae?hakusana=<%= hakusana %>&jarjestettava=asukkaatNaiset&jarjestys=<%= jarjestettava === 'asukkaatNaiset' && jarjestys === 'asc' ? 'desc' : 'asc' %>">
+                            Naisten asukasmäärä
+                            <% if (jarjestettava === 'asukkaatNaiset') {%>
+                                <% if (jarjestys === 'asc') {%>
+                                    <i class="material-icons">arrow_drop_up</i>
+                                <% } else { %>
+                                    <i class="material-icons">arrow_drop_down</i>
+                                <% } %>
+                            <% } %>
+                        </a>
+                    </th>
+                </tr>
+            </thead>
+
+            <tbody>
+                <% kunnat.forEach((kunta) => { %>
+                    <tr>
+                        <td class="mdl-data-table__cell--non-numeric"><%= kunta.kunta %></td>
+                        <td><%= kunta.asukkaatYhteensa.toLocaleString("fi-FI") %></td>
+                        <td><%= kunta.asukkaatMiehet.toLocaleString("fi-FI") %></td>
+                        <td><%= kunta.asukkaatNaiset.toLocaleString("fi-FI") %></td>
+                    </tr>
+                <% }); %>
+
+            </tbody>
+        </table>
+
+        <% 
+            // Lasketaan asukkaiden määrä yhteensä ja asukasluvun keskiarvo
+            let asukkaitaYhteensa = 0; 
+
+            kunnat.forEach((kunta) => {
+                asukkaitaYhteensa += kunta.asukkaatYhteensa;
+            });
+            
+            let asukasluvunKeskiarvo = (kunnat.length > 0) ? asukkaitaYhteensa / kunnat.length : 0;
+
+            // Lasketaan naisten määrä yhteensä ja naisten prosenttiosuus
+            let naisiaYhteensa = 0;
+
+            kunnat.forEach((kunta) => {
+                naisiaYhteensa += kunta.asukkaatNaiset;
+            })
+
+            let naistenProsenttiosuus = (kunnat.length > 0) ? naisiaYhteensa / asukkaitaYhteensa * 100 : 0;
+            
+        %>
+
+        <!--Esitetään tilastotietoa-->
+        <div class="kortti mdl-shadow--2dp">
+            <h5>Tilastotietoa</h5>
+            <p>Kuntien lukumäärä: <%= kunnat.length %></p>
+            <p>Asukasluvun keskiarvo: <%= Number(asukasluvunKeskiarvo.toFixed(0)).toLocaleString("fi-FI") %></p>
+            <p>Naisten prosentuaalinen osuus väestöstä: <%=  naistenProsenttiosuus.toFixed(2) %>% </p>
+        </div>
+
+<%- include("includes/footer") %>
+
+

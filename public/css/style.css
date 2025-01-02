@@ -1,0 +1,51 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+.mdl-layout {
+    margin-top : 15px;
+    margin-left: auto;
+    margin-right: auto;
+    width: 90%;
+    max-width: 960px;            
+}
+
+div {    
+    margin: 0 50px 0 50px;
+}
+
+
+button {
+    margin: 10px 0 10px 0;
+}
+
+h1 {
+    font-size: 2.5em;
+}
+
+.mdl-textfield {
+    width: 60%;
+    margin: 10px 0 10px 0;
+
+}
+
+.mdl-textfield__input {
+    height: 40px;
+    border-radius : 5px;
+    padding : 15px;
+    border: solid 1px lightgrey;
+}
+
+.mdl-button {
+    border-radius : 5px;
+    height: 40px;
+}
+
+.kortti {
+    margin: 10px 0 10px 0;
+    padding: 10px 15px;
+    border: solid 1px lightgrey;
+    border-radius: 5px;
+}
